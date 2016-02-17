@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class JNetworkStateReceiver extends BroadcastReceiver implements JIGlobalInterface {
     private static Boolean mNetworkAvailable = false;
     private static JNetWorkUtil.netType mNetType;
-    private static ArrayList<JINetChangeListener> mNetChangeObserverArrayList = new ArrayList();
+    private static ArrayList<JINetChangeListener> mNetChangeObserverArrayList = new ArrayList<>();
     private static final String ANDROID_NET_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     public static final String TA_ANDROID_NET_CHANGE_ACTION = "think.android.net.conn.CONNECTIVITY_CHANGE";
     private static JNetworkStateReceiver mThis;
@@ -23,7 +23,7 @@ public class JNetworkStateReceiver extends BroadcastReceiver implements JIGlobal
     }
 
     public static JNetworkStateReceiver getInstance() {
-        if(mThis == null) {
+        if (mThis == null) {
             mThis = new JNetworkStateReceiver();
         }
         return mThis;
@@ -42,16 +42,18 @@ public class JNetworkStateReceiver extends BroadcastReceiver implements JIGlobal
     }
 
     public void onReceive(Context context, Intent intent) {
-        if(intent.getAction().equalsIgnoreCase("android.net.conn.CONNECTIVITY_CHANGE")
-                || intent.getAction().equalsIgnoreCase("think.android.net.conn.CONNECTIVITY_CHANGE")) {
-            Log.i("TANetworkStateReceiver", "缃戠粶鐘舵�佹敼鍙�.");
-            if(!JNetWorkUtil.isNetworkAvailable()) {
-                Log.i("TANetworkStateReceiver", "娌℃湁缃戠粶杩炴帴.");
-                mNetworkAvailable = Boolean.valueOf(false);
+
+        if (intent.getAction().equalsIgnoreCase(ANDROID_NET_CHANGE_ACTION)
+                || intent.getAction().equalsIgnoreCase(TA_ANDROID_NET_CHANGE_ACTION)) {
+            Log.i("TANetworkStateReceiver", "网络状态变化");
+
+            if (!JNetWorkUtil.isNetworkAvailable()) {
+                Log.i("TANetworkStateReceiver", "网络不可用");
+                mNetworkAvailable = false;
             } else {
-                Log.i("TANetworkStateReceiver", "缃戠粶杩炴帴鎴愬姛.");
+                Log.i("TANetworkStateReceiver", "网络可用");
                 mNetType = JNetWorkUtil.getAPNType();
-                mNetworkAvailable = Boolean.valueOf(true);
+                mNetworkAvailable = true;
             }
 
             this.notifyObserver();
@@ -60,14 +62,14 @@ public class JNetworkStateReceiver extends BroadcastReceiver implements JIGlobal
 
     private void registerNetworkStateReceiver() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction("think.android.net.conn.CONNECTIVITY_CHANGE");
-        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        filter.addAction(TA_ANDROID_NET_CHANGE_ACTION);
+        filter.addAction(ANDROID_NET_CHANGE_ACTION);
         this.mContext.getApplicationContext().registerReceiver(getInstance(), filter);
     }
 
     public void checkNetworkState() {
         Intent intent = new Intent();
-        intent.setAction("think.android.net.conn.CONNECTIVITY_CHANGE");
+        intent.setAction(TA_ANDROID_NET_CHANGE_ACTION);
         this.mContext.sendBroadcast(intent);
     }
 
@@ -89,29 +91,28 @@ public class JNetworkStateReceiver extends BroadcastReceiver implements JIGlobal
     }
 
     private void notifyObserver() {
-        for(int i = 0; i < mNetChangeObserverArrayList.size(); ++i) {
-            JINetChangeListener observer = (JINetChangeListener)mNetChangeObserverArrayList.get(i);
-            if(observer != null) {
-                if(this.isNetworkAvailable()) {
+        for (int i = 0; i < mNetChangeObserverArrayList.size(); ++i) {
+            JINetChangeListener observer = mNetChangeObserverArrayList.get(i);
+            if (observer != null) {
+                if (this.isNetworkAvailable()) {
                     observer.onConnect(mNetType);
                 } else {
                     observer.onDisConnect();
                 }
             }
         }
-
     }
 
     public static void registerObserver(JINetChangeListener observer) {
-        if(mNetChangeObserverArrayList == null) {
-            mNetChangeObserverArrayList = new ArrayList();
+        if (mNetChangeObserverArrayList == null) {
+            mNetChangeObserverArrayList = new ArrayList<>();
         }
 
         mNetChangeObserverArrayList.add(observer);
     }
 
     public void removeRegisterObserver(JINetChangeListener observer) {
-        if(mNetChangeObserverArrayList != null) {
+        if (mNetChangeObserverArrayList != null) {
             mNetChangeObserverArrayList.remove(observer);
         }
 

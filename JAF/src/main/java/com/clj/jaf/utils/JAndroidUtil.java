@@ -73,7 +73,7 @@ public class JAndroidUtil {
 
 
     /**
-     * 判断当前App处于前台还是后台状态
+     * 判断当前App是否处于后台
      */
     public static boolean isApplicationBackground(Context context) {
         ActivityManager am = (ActivityManager) context

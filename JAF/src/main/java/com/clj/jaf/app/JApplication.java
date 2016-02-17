@@ -19,7 +19,7 @@ import com.clj.jaf.task.JTask;
 import java.util.ArrayList;
 
 /**
- * 集成崩溃监听、Task监听、网络变化监听、广播接收监听
+ * 集成Task监听、网络变化监听、广播接收监听
  */
 public class JApplication extends Application implements JITaskListener,
         JINetChangeListener, JIProcessEvent {
@@ -44,9 +44,6 @@ public class JApplication extends Application implements JITaskListener,
             }
         }
     };
-
-    public JApplication() {
-    }
 
     @Override
     public void onCreate() {
@@ -86,9 +83,6 @@ public class JApplication extends Application implements JITaskListener,
         super.onTerminate();
     }
 
-    public void onAppCrash(String crashFile) {
-    }
-
     @Override
     public void onConnect(JNetWorkUtil.netType var1) {
     }
@@ -123,10 +117,6 @@ public class JApplication extends Application implements JITaskListener,
         return this.mInit;
     }
 
-    public void appExit(Boolean isBackground) {
-
-    }
-
     public static boolean isRelease() {
         return !mDebug;
     }
@@ -142,20 +132,9 @@ public class JApplication extends Application implements JITaskListener,
                     this.onInitComplete();
                 }
             } catch (Exception var5) {
+                //ignore
             }
         }
-
-    }
-
-    public PackageInfo getPackageInfo(int flags) {
-        PackageInfo packageInfo = null;
-        try {
-            packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), flags);
-        } catch (Exception var4) {
-            var4.printStackTrace();
-        }
-
-        return packageInfo;
     }
 
     private void initBroadcastParameterByInner(Intent intent) {
@@ -180,6 +159,17 @@ public class JApplication extends Application implements JITaskListener,
             this.mBroadcastParametersProcess.add(intent.getStringExtra("message4"));
             this.mBroadcastParametersProcess.add(intent.getStringExtra("message5"));
         }
+    }
+
+    public PackageInfo getPackageInfo(int flags) {
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), flags);
+        } catch (Exception var4) {
+            var4.printStackTrace();
+        }
+
+        return packageInfo;
     }
 
     public ArrayList<String> getBroadcastParameterByInner() {

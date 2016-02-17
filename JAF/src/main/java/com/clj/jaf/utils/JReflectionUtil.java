@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.clj.jaf.utils;
 
 import android.content.Context;

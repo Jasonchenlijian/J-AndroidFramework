@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/J-android-framewordk.iml" filepath="$PROJECT_DIR$/J-android-framewordk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/J-AndroidFramework.iml" filepath="$PROJECT_DIR$/J-AndroidFramework.iml" />
       <module fileurl="file://$PROJECT_DIR$/JAF/JAF.iml" filepath="$PROJECT_DIR$/JAF/JAF.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
