@@ -20,8 +20,10 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:23.1.1'
     compile 'cz.msebera.android:httpclient:4.3.6'
     compile 'com.alibaba:fastjson:1.1.46.android'
 }
+
+// this script was used to upload files to bintray.
+apply from: 'https://raw.githubusercontent.com/msdx/gradle-publish/master/bintray.gradle'
