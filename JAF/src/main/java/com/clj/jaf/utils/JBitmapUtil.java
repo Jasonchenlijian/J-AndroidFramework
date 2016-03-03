@@ -13,6 +13,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.view.View;
 
 /**
  * @author Tony Shen
@@ -83,5 +84,31 @@ public class JBitmapUtil {
 	    }
 
 	    return inSampleSize;
+	}
+
+	/**
+	 * 可将当前view保存为图片的工具
+	 *
+	 * @param v
+	 * @return
+	 */
+	public static Bitmap createViewBitmap(View v) {
+		Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
+				Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		v.draw(canvas);
+		return bitmap;
+	}
+	/**
+	 * 可将当前view保存为图片的工具
+	 *
+	 * @param view
+	 * @return
+	 */
+	public static Bitmap convertViewToBitmap(View view){
+		view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+		view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+		view.buildDrawingCache();
+		return view.getDrawingCache();
 	}
 }
