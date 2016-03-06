@@ -53,6 +53,16 @@ public class JTimeUtil {
     }
 
     /**
+     * 从时间戳获取月日时分
+     */
+    public static String getMonDayHourMinute(long time) {
+        Date date = new Date(time);
+        String strTime = monthTimeFormat.format(date);
+        date = null;
+        return strTime;
+    }
+
+    /**
      * 从时间戳获取时分
      */
     public static String getHourMinute(long time) {
